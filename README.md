@@ -21,7 +21,7 @@ $\sum_{} = {a,b,d,e,h,i,k,l,r,s,w,y,z}$
 Any character not belonging to this alphabet, and not explicitly present in the automaton, will cause the machine to reject the input string.
 
 Here is the automaton:
-![Automata](https://github.com/Lolards/PrologAutomaton/blob/5d85a1eb560835ed7477a1f6e48a71fb635043ab/DFA.pdf)
+![Automata](https://github.com/Lolards/PrologAutomaton/blob/f4635c56e85c511a7ec597247925aba3970e356b/DFA_Image.png)
 
 Another way to represent the same automaton is through a regular expression (regex). A regex is a sequence of sub-expressions that is extremely powerful for searching and manipulating text strings. In this case, since the automaton only accepts exactly five words, the regex can be written using the OR operator (|), which accepts one string or another. Additionally, since four of the five words share the prefix ba, the expression can be simplified by factoring it out and only writing the differing suffixes inside parentheses. The resulting regex for this language would be:
 

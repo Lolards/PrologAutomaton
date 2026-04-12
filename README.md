@@ -119,6 +119,46 @@ For the words that were already defined as test cases in the knowledge base, you
 The time complexity of this automaton implementation is O(n), where n is the length of the input string.
 This is because the program processes exactly one character per recursive call. Each call to ```automatonCheck``` does two things: look up a ```move``` fact in the knowledge base and make one recursive call with the remaining list. Since the knowledge base has a fixed and small number of states and transitions, each lookup takes constant time O(1). 
 
+## Other Solution
+
+### DFA or NFA?
+I chose a DFA over an NFA because of determinism. Since each state in this language has at most one valid transition per character, there is no indeterminism, so an NFA would offer no design advantage. A DFA maps directly to the Prolog knowledge base without any additional conversion steps, making it the simplest and most straightforward option.
+
+### Different Programming Languages
+I asked ChatGPT how the same automaton could be done in Python. Instead of recursion, Python uses a dictionary as the transition table and a for loop that iterates over each character of the input once. In that sense it is very similar to what the Prolog program does, except Prolog does it with recursion and unification instead of explicit loops and conditionals.
+
+```python
+transitions = {
+    'q0': {'b': 'q1'},
+    'q1': {'a': 'q8', 'i': 'q2'},
+    'q8': {'k': 'q9', 'r': 'q13', 'z': 'q15'},
+    'q9': {'k': 'q10', 'l': 'q11'},
+    'q10': {'a': 'q15'},
+    'q11': {'a': 'q12'},
+    'q12': {'w': 'q10'},
+    'q13': {'a': 'q14'},
+    'q14': {'k': 'q10', 'w': 'q10'},
+    'q2':  {'d': 'q3'},
+    'q3':  {'r': 'q4'},
+    'q4':  {'i': 'q5'},
+    'q5':  {'y': 'q6'},
+    'q6':  {'a': 'q7'},
+    'q7':  {'h': 'q15'},
+}
+
+def check_word(word):
+    state = 'q0'
+    for char in word:
+        if state in transitions and char in transitions[state]:
+            state = transitions[state][char]
+        else:
+            return False
+    return state == 'q15'
+```
+OpenAI. (2026). Chakobsa DFA in Python [ChatGPT response]. https://chat.openai.com
+
+All three approaches (Prolog DFA, regex, and Python) share the same O(n) time complexity since each character is processed exactly once. The difference is not efficiency but style. Prolog is stateless and uses unification to check transitions naturally, resulting in cleaner and more elegant code that reads almost like the formal definition of the automaton itself. The other languages require explicit loops, conditionals, and data structures to achieve the same result. This makes Prolog the most fitting language for this particular problem, even if it is less commonly used in practice.
+
 ## References
 Chakobsa. (2020, 24 diciembre). Fandom. Recuperado 15 de marzo de 2026, de https://dune.fandom.com/es/wiki/Chakobsa
 
@@ -127,3 +167,7 @@ Sisense. (n.d.). What is Deterministic Finite Automata? (DFA) | Definition. http
 Chua, H. W. (November, 2018). Regular expressions (regex). Nanyang Technological University. https://www3.ntu.edu.sg/home/ehchua/programming/howto/Regexe.html
 
 Jnj. (2021, 17 abril). Prolog: cómo hacer condicionales. JnjSite.com. https://jnjsite.com/prolog-como-hacer-condicionales/
+
+GeeksforGeeks. (2024, 18 de junio). Difference between DFA and NFA. https://www.geeksforgeeks.org/theory-of-computation/difference-between-dfa-and-nfa/
+
+Wikipedia contributors. (2026a, February 23). Nondeterministic finite automaton. Wikipedia. https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton
